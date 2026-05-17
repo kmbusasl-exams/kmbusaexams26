@@ -128,6 +128,28 @@
                         </div>
                     </div>
 
+                    <div id="analytics-summary-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-white glass-card p-5 border-l-4 border-blue-600">
+                            <p class="text-xs font-bold text-gray-500 uppercase mb-2">Stream Breakdown</p>
+                            <div id="stream-stats-content" class="space-y-1 text-sm">
+                                <p class="flex justify-between">Bio: <span class="font-bold text-blue-600" id="count-bio">0</span></p>
+                                <p class="flex justify-between">Maths: <span class="font-bold text-blue-800" id="count-math">0</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-white glass-card p-5 border-l-4 border-indigo-600">
+                            <p class="text-xs font-bold text-gray-500 uppercase mb-2">Gender Distribution</p>
+                            <div id="gender-stats-content" class="space-y-1 text-sm">
+                                <p class="flex justify-between">Male: <span class="font-bold text-indigo-600" id="count-male">0</span></p>
+                                <p class="flex justify-between">Female: <span class="font-bold text-pink-600" id="count-female">0</span></p>
+                            </div>
+                        </div>
+                        <div class="bg-white glass-card p-5 border-l-4 border-emerald-600">
+                            <p class="text-xs font-bold text-gray-500 uppercase mb-2">Batch Enrollment</p>
+                            <div id="batch-stats-content" class="max-h-20 overflow-y-auto space-y-1 text-sm">
+                                </div>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="bg-white glass-card p-5 h-64"><canvas id="renderingStreamNode"></canvas></div>
                         <div class="bg-white glass-card p-5 h-64"><canvas id="renderingGenderNode"></canvas></div>
@@ -136,7 +158,7 @@
 
                     <div class="bg-white glass-card shadow-xl overflow-hidden">
                         <div class="px-6 py-4 bg-gray-50 border-b flex justify-between items-center">
-                            <span class="font-bold">Student Ledger (Live from Sheets)</span>
+                            <span class="font-bold">Detailed Student Ledger</span>
                             <span id="state-count-badge" class="bg-blue-600 text-white text-xs px-3 py-1 rounded-full">Records: 0</span>
                         </div>
                         <div class="overflow-x-auto">
@@ -151,7 +173,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="dynamicStateTableBody" class="divide-y divide-gray-100">
-                                    <tr><td colspan="5" class="py-10 text-center text-blue-500">Click refresh or login to load data.</td></tr>
+                                    <tr><td colspan="5" class="py-10 text-center text-blue-500">Loading live data...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -237,10 +259,10 @@
             }
         }
 
-        // ADMIN FETCH & ANALYTICS
+        // ADMIN LOGIC (FETCH & ANALYTICS)
         async function fetchSheetData() {
             const tableBody = document.getElementById('dynamicStateTableBody');
-            tableBody.innerHTML = `<tr><td colspan="5" class="py-10 text-center text-blue-500"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading live data...</td></tr>`;
+            tableBody.innerHTML = `<tr><td colspan="5" class="py-10 text-center text-blue-500"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Syncing with Google Sheets...</td></tr>`;
 
             try {
                 const response = await fetch(GOOGLE_SCRIPT_URL);
@@ -260,7 +282,7 @@
 
                 runLiveAnalytics(data);
             } catch (error) {
-                tableBody.innerHTML = `<tr><td colspan="5" class="py-10 text-center text-red-500">Failed to load data. Ensure your Apps Script doGet() is deployed as 'Anyone'.</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="5" class="py-10 text-center text-red-500">Error connecting to cloud data.</td></tr>`;
             }
         }
 
@@ -275,25 +297,63 @@
                 batches[r.batch] = (batches[r.batch] || 0) + 1;
             });
 
+            // 1. UPDATE SUMMARY TEXT
+            document.getElementById('count-bio').innerText = streams["Biological Science"];
+            document.getElementById('count-math').innerText = streams["Physical Science"];
+            document.getElementById('count-male').innerText = genders["Male"];
+            document.getElementById('count-female').innerText = genders["Female"];
+            
+            const batchContent = document.getElementById('batch-stats-content');
+            batchContent.innerHTML = Object.keys(batches).sort().map(year => `
+                <p class="flex justify-between">Class of ${year}: <span class="font-bold text-emerald-600">${batches[year]}</span></p>
+            `).join('');
+
+            // 2. UPDATE CHARTS
+            // Stream Chart
             if (charts.stream) charts.stream.destroy();
             charts.stream = new Chart(document.getElementById('renderingStreamNode'), {
                 type: 'doughnut',
-                data: { labels: Object.keys(streams), datasets: [{ data: Object.values(streams), backgroundColor: ['#3b82f6', '#1e3a8a'] }] },
+                data: { 
+                    labels: ['Bio Science', 'Physical Science'], 
+                    datasets: [{ 
+                        data: [streams["Biological Science"], streams["Physical Science"]], 
+                        backgroundColor: ['#2563eb', '#1e3a8a'] 
+                    }] 
+                },
                 options: { maintainAspectRatio: false, plugins: { title: { display: true, text: 'Streamwise' } } }
             });
 
+            // Gender Chart
             if (charts.gender) charts.gender.destroy();
             charts.gender = new Chart(document.getElementById('renderingGenderNode'), {
                 type: 'pie',
-                data: { labels: Object.keys(genders), datasets: [{ data: Object.values(genders), backgroundColor: ['#60a5fa', '#f472b6'] }] },
+                data: { 
+                    labels: ['Male', 'Female'], 
+                    datasets: [{ 
+                        data: [genders["Male"], genders["Female"]], 
+                        backgroundColor: ['#6366f1', '#ec4899'] 
+                    }] 
+                },
                 options: { maintainAspectRatio: false, plugins: { title: { display: true, text: 'Genderwise' } } }
             });
 
+            // Batch Chart
             if (charts.batch) charts.batch.destroy();
             charts.batch = new Chart(document.getElementById('renderingBatchNode'), {
                 type: 'bar',
-                data: { labels: Object.keys(batches), datasets: [{ label: 'Students', data: Object.values(batches), backgroundColor: '#4f46e5' }] },
-                options: { maintainAspectRatio: false, plugins: { title: { display: true, text: 'Batchwise' } } }
+                data: { 
+                    labels: Object.keys(batches), 
+                    datasets: [{ 
+                        label: 'Students', 
+                        data: Object.values(batches), 
+                        backgroundColor: '#10b981' 
+                    }] 
+                },
+                options: { 
+                    maintainAspectRatio: false, 
+                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+                    plugins: { title: { display: true, text: 'Batchwise' } } 
+                }
             });
         }
 
