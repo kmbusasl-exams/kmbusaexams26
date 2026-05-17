@@ -11,54 +11,14 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f0f4f8;
-            overflow-x: hidden;
-        }
-        
-        /* Advanced Curved Wave Animations */
-        .wave-bg {
-            position: relative;
-            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
-            border-radius: 0 0 60px 60px;
-            overflow: hidden;
-        }
-
-        /* Custom Morphing Background Blobs */
-        .animated-blob {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            animation: morphBlob 12s infinite linear;
-            z-index: 0;
-        }
-        @keyframes morphBlob {
-            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(0deg); }
-            50% { border-radius: 70% 30% 52% 48% / 60% 40% 70% 30%; transform: rotate(180deg); }
-            100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(360deg); }
-        }
-
-        /* SPA Transitions */
-        .spa-page {
-            display: none;
-        }
-        .spa-page.active-page {
-            display: block;
-        }
-
-        /* Smooth Interactive Form Progress Bar */
-        .progress-bar-fill {
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Curved Glassmorphism Styling */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 30px;
-        }
+        body { font-family: 'Poppins', sans-serif; background-color: #f0f4f8; overflow-x: hidden; }
+        .wave-bg { position: relative; background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%); border-radius: 0 0 60px 60px; overflow: hidden; }
+        .animated-blob { position: absolute; background: rgba(255, 255, 255, 0.05); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; animation: morphBlob 12s infinite linear; z-index: 0; }
+        @keyframes morphBlob { 0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(0deg); } 50% { border-radius: 70% 30% 52% 48% / 60% 40% 70% 30%; transform: rotate(180deg); } 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(360deg); } }
+        .spa-page { display: none; }
+        .spa-page.active-page { display: block; }
+        .progress-bar-fill { transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 30px; }
     </style>
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col">
@@ -68,546 +28,206 @@
             <div class="animated-blob w-96 h-96 -top-10 -left-10"></div>
             <div class="animated-blob w-80 h-80 -bottom-10 -right-10" style="animation-duration: 8s;"></div>
         </div>
-        
         <div class="text-center z-10 space-y-6 max-w-xl animate__animated animate__fadeIn">
             <div class="relative inline-block">
                 <div class="absolute inset-0 bg-blue-400 rounded-full blur-xl opacity-40 animate-pulse"></div>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYHbrqEegUN2m6QuS_MP80cGuqtEgD3qqngA&s" 
-                     alt="KMBUSA Logo" 
-                     class="w-32 h-32 rounded-full mx-auto border-4 border-white shadow-2xl transform hover:scale-110 transition duration-500 animate__animated animate__zoomIn">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYHbrqEegUN2m6QuS_MP80cGuqtEgD3qqngA&s" alt="Logo" class="w-32 h-32 rounded-full mx-auto border-4 border-white shadow-2xl transform hover:scale-110 transition duration-500 animate__animated animate__zoomIn">
             </div>
-            
             <div class="space-y-2">
                 <h1 class="text-5xl font-black tracking-wider animate__animated animate__backInDown">KMBUSA</h1>
-                <p class="text-blue-200 text-sm md:text-base font-medium tracking-wide uppercase px-4">
-                    Kilinochchi Maths Bio University Students' Association
-                </p>
+                <p class="text-blue-200 text-sm font-medium tracking-wide uppercase px-4 text-center">Kilinochchi Mathematics & Biology University Students' Association</p>
             </div>
-            
             <div class="pt-8">
-                <button onclick="dismissIntro()" class="bg-white text-blue-900 font-bold px-8 py-3.5 rounded-full shadow-lg hover:bg-blue-50 transition transform hover:-translate-y-1 active:translate-y-0 duration-200 animate__animated animate__pulse animate__infinite">
-                    Enter Official Portal <i class="fa-solid fa-arrow-right ml-2"></i>
-                </button>
+                <button onclick="dismissIntro()" class="bg-white text-blue-900 font-bold px-8 py-3.5 rounded-full shadow-lg hover:bg-blue-50 transition transform hover:-translate-y-1 duration-200 animate__animated animate__pulse animate__infinite">Enter Official Portal <i class="fa-solid fa-arrow-right ml-2"></i></button>
             </div>
         </div>
     </div>
 
     <div id="main-app" class="opacity-0 transition-opacity duration-1000 hidden flex-col min-h-screen">
-        
         <header class="wave-bg text-white pb-24 pt-8 px-4 text-center shadow-xl relative">
-            <div class="animated-blob w-40 h-40 top-0 right-10"></div>
-            
             <div class="max-w-4xl mx-auto flex flex-col items-center relative z-10">
                 <div class="flex items-center space-x-4 mb-4 transform hover:scale-105 transition duration-300">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYHbrqEegUN2m6QuS_MP80cGuqtEgD3qqngA&s" alt="Logo" class="w-14 h-14 rounded-full border-2 border-white shadow-md">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYHbrqEegUN2m6QuS_MP80cGuqtEgD3qqngA&s" alt="Logo" class="w-14 h-14 rounded-full border-2 border-white">
                     <div class="text-left">
                         <h2 class="text-2xl font-black tracking-wide">KMBUSA</h2>
-                        <p class="text-xs text-blue-100 font-light">Kilinochchi Maths Bio University Students' Association</p>
+                        <p class="text-xs text-blue-100 font-light uppercase">Kilinochchi District</p>
                     </div>
                 </div>
-                
                 <nav class="flex justify-center space-x-1 mt-6 bg-white/10 p-1.5 rounded-full backdrop-blur-md border border-white/10">
-                    <button onclick="navigateSPA('register')" id="nav-register" class="px-5 py-2 rounded-full text-sm font-semibold transition duration-300 bg-white text-blue-700 shadow-sm">
-                        <i class="fa-solid fa-user-plus mr-1.5"></i>Registration
-                    </button>
-                    <button onclick="navigateSPA('about')" id="nav-about" class="px-5 py-2 rounded-full text-sm font-semibold transition duration-300 hover:bg-white/10 text-white">
-                        <i class="fa-solid fa-circle-info mr-1.5"></i>About Us
-                    </button>
-                    <button onclick="navigateSPA('admin-login')" id="nav-admin-login" class="px-5 py-2 rounded-full text-sm font-semibold transition duration-300 hover:bg-white/10 text-white">
-                        <i class="fa-solid fa-lock-open mr-1.5"></i>Admin Area
-                    </button>
+                    <button onclick="navigateSPA('register')" id="nav-register" class="px-5 py-2 rounded-full text-sm font-semibold transition duration-300 bg-white text-blue-700 shadow-sm"><i class="fa-solid fa-user-plus mr-1.5"></i>Registration</button>
+                    <button onclick="navigateSPA('about')" id="nav-about" class="px-5 py-2 rounded-full text-sm font-semibold transition duration-300 hover:bg-white/10 text-white"><i class="fa-solid fa-circle-info mr-1.5"></i>About Us</button>
+                    <button onclick="navigateSPA('admin-login')" id="nav-admin-login" class="px-5 py-2 rounded-full text-sm font-semibold transition duration-300 hover:bg-white/10 text-white"><i class="fa-solid fa-lock-open mr-1.5"></i>Admin Area</button>
                 </nav>
             </div>
         </header>
 
         <main class="flex-grow max-w-5xl w-full mx-auto px-4 -mt-14 z-10 mb-16">
-
             <section id="page-register" class="spa-page active-page animate__animated animate__fadeInUp">
                 <div class="bg-white glass-card p-6 md:p-10 shadow-2xl">
                     <div class="text-center mb-8">
                         <h3 class="text-2xl font-bold text-blue-950">Student Admission Portal</h3>
-                        <p class="text-gray-500 text-xs mt-1">State Managed Real-time Registration Input Processing</p>
-                        
                         <div class="w-full bg-gray-100 h-2 mt-5 rounded-full overflow-hidden border border-gray-200">
-                            <div id="form-progress" class="progress-bar-fill bg-gradient-to-r transition-all from-blue-500 to-indigo-600 h-full w-0"></div>
+                            <div id="form-progress" class="progress-bar-fill bg-gradient-to-r from-blue-500 to-indigo-600 h-full w-0"></div>
                         </div>
                     </div>
-
                     <div id="success-alert" class="hidden mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-2xl flex items-center space-x-3 animate__animated animate__bounceIn">
                         <div class="p-2 bg-emerald-500 text-white rounded-full"><i class="fa-solid fa-check text-lg"></i></div>
-                        <div>
-                            <p class="font-bold text-sm">Registration Completed successfully!</p>
-                            <p class="text-xs text-emerald-700">Student information array saved dynamically in the application state cluster.</p>
-                        </div>
+                        <div><p class="font-bold text-sm">Registration Successful!</p><p class="text-xs text-emerald-700">Data has been saved to the secure database.</p></div>
                     </div>
-
                     <form id="registrationForm" onsubmit="executeRegistration(event)" class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Full Name</label>
-                                <div class="relative">
-                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400"><i class="fa-solid fa-user-tag text-xs"></i></span>
-                                    <input type="text" id="fullName" name="fullName" oninput="trackFormState()" required class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition duration-200 text-sm">
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">NIC Number</label>
-                                <div class="relative">
-                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400"><i class="fa-solid fa-address-card text-xs"></i></span>
-                                    <input type="text" id="nicNumber" name="nicNumber" oninput="trackFormState()" required class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition duration-200 text-sm" placeholder="e.g., 200511223344">
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Academic Stream</label>
-                                <div class="relative">
-                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400"><i class="fa-solid fa-microscope text-xs"></i></span>
-                                    <select id="stream" name="stream" onchange="trackFormState()" required class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition appearance-none text-sm">
-                                        <option value="" disabled selected>Choose your stream</option>
-                                        <option value="Biological Science">Biological Science</option>
-                                        <option value="Physical Science">Physical Science</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Batch</label>
-                                <div class="relative">
-                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400"><i class="fa-solid fa-clock-history text-xs"></i></span>
-                                    <select id="batch" name="batch" onchange="trackFormState()" required class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition appearance-none text-sm">
-                                        <option value="" disabled selected>Select Allocation Year</option>
-                                        <option value="2026">2026</option>
-                                        <option value="2025">2025</option>
-                                        <option value="2024">2024</option>
-                                        <option value="Others">Others</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">School Name</label>
-                                <div class="relative">
-                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400"><i class="fa-solid fa-graduation-cap text-xs"></i></span>
-                                    <input type="text" id="schoolName" name="schoolName" oninput="trackFormState()" required class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition duration-200 text-sm">
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Gender Identification</label>
-                                <div class="flex space-x-4">
-                                    <label class="flex items-center space-x-2 cursor-pointer bg-gray-50/50 px-4 py-2.5 rounded-xl border border-gray-200 flex-1 justify-center hover:bg-gray-100/50 transition text-sm">
-                                        <input type="radio" name="gender" value="Male" onchange="trackFormState()" required class="text-blue-600 focus:ring-blue-500">
-                                        <span class="font-medium text-gray-700">Male</span>
-                                    </label>
-                                    <label class="flex items-center space-x-2 cursor-pointer bg-gray-50/50 px-4 py-2.5 rounded-xl border border-gray-200 flex-1 justify-center hover:bg-gray-100/50 transition text-sm">
-                                        <input type="radio" name="gender" value="Female" onchange="trackFormState()" required class="text-blue-600 focus:ring-blue-500">
-                                        <span class="font-medium text-gray-700">Female</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Contact Number</label>
-                                <div class="relative">
-                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400"><i class="fa-solid fa-mobile-button text-xs"></i></span>
-                                    <input type="tel" id="contactNumber" name="contactNumber" oninput="trackFormState()" required class="w-full pl-10 pr-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition duration-200 text-sm" placeholder="+94 7X XXX XXXX">
-                                </div>
-                            </div>
-
+                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">Full Name</label><input type="text" id="fullName" oninput="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"></div>
+                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">NIC Number</label><input type="text" id="nicNumber" oninput="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"></div>
+                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">Stream</label><select id="stream" onchange="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"><option value="" disabled selected>Choose stream</option><option value="Biological Science">Biological Science</option><option value="Physical Science">Physical Science</option></select></div>
+                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">Batch</label><select id="batch" onchange="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"><option value="" disabled selected>Select Year</option><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="Others">Others</option></select></div>
+                            <div class="md:col-span-2"><label class="block text-xs font-bold text-gray-700 uppercase mb-2">School Name</label><input type="text" id="schoolName" oninput="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"></div>
+                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">Gender</label><div class="flex space-x-4"><label class="flex items-center space-x-2 cursor-pointer bg-gray-50/50 px-4 py-2.5 rounded-xl border border-gray-200 flex-1 justify-center"><input type="radio" name="gender" value="Male" onchange="trackFormState()" required> <span>Male</span></label><label class="flex items-center space-x-2 cursor-pointer bg-gray-50/50 px-4 py-2.5 rounded-xl border border-gray-200 flex-1 justify-center"><input type="radio" name="gender" value="Female" onchange="trackFormState()" required> <span>Female</span></label></div></div>
+                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">Contact Number</label><input type="tel" id="contactNumber" oninput="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"></div>
                         </div>
-
-                        <div class="pt-4">
-                            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-2">
-                                <i class="fa-solid fa-paper-plane"></i>
-                                <span>Submit</span>
-                            </button>
-                        </div>
+                        <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center space-x-2"><i class="fa-solid fa-paper-plane"></i><span>Submit Registration</span></button>
                     </form>
                 </div>
             </section>
 
             <section id="page-about" class="spa-page animate__animated animate__fadeInUp">
                 <div class="bg-white glass-card p-6 md:p-10 shadow-2xl space-y-8">
-                    <div class="border-l-4 border-blue-600 pl-4 md:pl-6 py-1">
-                        <p class="text-base md:text-lg text-gray-700 leading-relaxed font-medium text-justify">
-                            கிளிநொச்சி மாவட்டத்தைச் சேர்ந்த கணித மற்றும் உயிரியல் பிரிவு பல்கலைக்கழக மாணவர்களால் உருவாக்கப்பட்ட ஒரு முன்மாதிரி அமைப்பே KMBUSA ஆகும். எமது பிராந்தியத்தில் உயர்தர (A/L) கல்வியைக் கற்கும் மாணவர்களின் கல்வி மேம்பாட்டிற்காக அர்ப்பணிப்புடன் செயலாற்றி வருகிறோம்.
-                        </p>
-                    </div>
-
-                    <div class="bg-gradient-to-br from-blue-50 to-indigo-50/30 p-6 rounded-2xl border border-blue-100/50">
-                        <h4 class="text-lg font-bold text-blue-950 mb-4 flex items-center">
-                            <i class="fa-solid fa-graduation-cap mr-2 text-blue-600"></i>எமது நோக்கம் (Our Mission)
-                        </h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                                <h5 class="font-bold text-gray-900 flex items-center mb-1 text-sm text-blue-800">
-                                    <span class="w-2 h-2 rounded-full bg-blue-600 mr-2"></span>வழிகாட்டல்
-                                </h5>
-                                <p class="text-xs md:text-sm text-gray-600 leading-relaxed">உயர்தர மாணவர்களுக்குத் தெளிவான கல்வி வழிகாட்டல்களை வழங்கி, அவர்களைப் பல்கலைக்கழக நுழைவிற்குத் தகுதிபெறச் செய்தல்.</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                                <h5 class="font-bold text-gray-900 flex items-center mb-1 text-sm text-blue-800">
-                                    <span class="w-2 h-2 rounded-full bg-blue-600 mr-2"></span>பயிற்சிப் பரீட்சைகள்
-                                </h5>
-                                <p class="text-xs md:text-sm text-gray-600 leading-relaxed">KMBUSA நடாத்தும் முன்னோடிப் பரீட்சைகள் (Mock Exams) மூலம் மாணவர்களின் பரீட்சை பயத்தைப் போக்கி, அவர்களின் புள்ளிமட்டத்தை உயர்த்துதல்.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h4 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-3">Executive Council Contacts</h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="bg-white border border-gray-100 p-4 rounded-xl shadow-sm flex items-center space-x-4 hover:border-blue-200 transition">
-                                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-user-shield"></i></div>
-                                <div>
-                                    <p class="text-xs font-semibold text-gray-400">President</p>
-                                    <p class="font-bold text-gray-800 text-sm">Iynkaran</p>
-                                    <a href="tel:+94776240570" class="text-xs text-blue-600 font-medium hover:underline flex items-center mt-0.5"><i class="fa-solid fa-phone mr-1"></i>+94 77 624 0570</a>
-                                </div>
-                            </div>
-                            <div class="bg-white border border-gray-100 p-4 rounded-xl shadow-sm flex items-center space-x-4 hover:border-blue-200 transition">
-                                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-signature"></i></div>
-                                <div>
-                                    <p class="text-xs font-semibold text-gray-400">Secretary</p>
-                                    <p class="font-bold text-gray-800 text-sm">Sarangan</p>
-                                    <a href="tel:+94766990842" class="text-xs text-blue-600 font-medium hover:underline flex items-center mt-0.5"><i class="fa-solid fa-phone mr-1"></i>+94 76 699 0842</a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="border-l-4 border-blue-600 pl-4 py-1"><p class="text-gray-700 leading-relaxed font-medium text-justify">கிளிநொச்சி மாவட்டத்தைச் சேர்ந்த கணித மற்றும் உயிரியல் பிரிவு பல்கலைக்கழக மாணவர்களால் உருவாக்கப்பட்ட அமைப்பே KMBUSA ஆகும்.</p></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-white border p-4 rounded-xl flex items-center space-x-4"><div><p class="text-xs font-semibold text-gray-400 uppercase">President</p><p class="font-bold text-sm">Iynkaran</p></div></div>
+                        <div class="bg-white border p-4 rounded-xl flex items-center space-x-4"><div><p class="text-xs font-semibold text-gray-400 uppercase">Secretary</p><p class="font-bold text-sm">Sarangan</p></div></div>
                     </div>
                 </div>
             </section>
 
             <section id="page-admin-login" class="spa-page animate__animated animate__fadeInUp">
                 <div class="max-w-md mx-auto bg-white glass-card p-8 shadow-2xl text-center">
-                    <div class="w-16 h-16 bg-blue-50 text-blue-600 border border-blue-100 rounded-full flex items-center justify-center text-2xl mx-auto mb-4 animate-pulse">
-                        <i class="fa-solid fa-fingerprint"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-gray-900">Protected Enclave</h4>
-                    <p class="text-gray-400 text-xs mt-1 mb-6">Enter secure credentials to request admin view layer access.</p>
-                    
-                    <form onsubmit="verifyPasscodeGate(event)" class="space-y-4">
-                        <input type="password" id="gatePasscode" required class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-center tracking-widest text-lg font-mono outline-none focus:ring-2 focus:ring-blue-600 transition" placeholder="••••••••">
-                        <p id="gate-error-message" class="hidden text-xs text-red-500 font-medium">Authentication Failed. Standard authorization token mismatch.</p>
-                        <button type="submit" class="w-full bg-blue-950 text-white py-2.5 rounded-xl text-sm font-bold tracking-wide hover:bg-black transition">
-                            Verify & Dispatch Dashboard
-                        </button>
+                    <h4 class="text-xl font-bold text-gray-900">Admin Login</h4>
+                    <form onsubmit="verifyPasscodeGate(event)" class="space-y-4 mt-6">
+                        <input type="password" id="gatePasscode" required class="w-full px-4 py-2.5 bg-gray-50 border rounded-xl text-center outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Enter Passcode">
+                        <p id="gate-error-message" class="hidden text-xs text-red-500">Invalid Passcode. Access Denied.</p>
+                        <button type="submit" class="w-full bg-blue-950 text-white py-2.5 rounded-xl font-bold hover:bg-blue-900 transition">Access Dashboard</button>
                     </form>
                 </div>
             </section>
 
             <section id="page-admin-dashboard" class="spa-page animate__animated animate__fadeIn">
                 <div class="space-y-6">
-                    
-                    <div class="bg-white glass-card p-5 shadow-xl flex flex-col sm:flex-row justify-between items-center gap-4">
-                        <div>
-                            <h3 class="text-xl font-bold text-blue-950">System Matrix Dashboard</h3>
-                            <p class="text-xs text-gray-400">Reactive interface mapping live local arrays.</p>
-                        </div>
-                        <button onclick="terminateAdminSession()" class="px-4 py-2 bg-red-50 text-red-600 rounded-xl text-xs font-bold border border-red-100 hover:bg-red-100 transition">
-                            Disconnect Security Token
-                        </button>
+                    <div class="bg-white glass-card p-5 shadow-xl flex justify-between items-center">
+                        <div><h3 class="text-xl font-bold text-blue-950">KMBUSA Admin Dashboard</h3></div>
+                        <button onclick="terminateAdminSession()" class="px-4 py-2 bg-red-50 text-red-600 rounded-xl text-xs font-bold hover:bg-red-100 transition">Logout</button>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white glass-card p-5 shadow-md h-56 flex flex-col justify-between">
-                            <span class="text-xs font-bold tracking-wider uppercase text-gray-400">Stream Metrics</span>
-                            <div class="relative w-full h-40"><canvas id="renderingStreamNode"></canvas></div>
-                        </div>
-                        <div class="bg-white glass-card p-5 shadow-md h-56 flex flex-col justify-between">
-                            <span class="text-xs font-bold tracking-wider uppercase text-gray-400">Batch Matrix</span>
-                            <div class="relative w-full h-40"><canvas id="renderingBatchNode"></canvas></div>
-                        </div>
-                        <div class="bg-white glass-card p-5 shadow-md h-56 flex flex-col justify-between">
-                            <span class="text-xs font-bold tracking-wider uppercase text-gray-400">Gender Spread</span>
-                            <div class="relative w-full h-40"><canvas id="renderingGenderNode"></canvas></div>
-                        </div>
+                        <div class="bg-white glass-card p-5 h-56 flex flex-col shadow-lg"><span class="text-xs font-bold text-gray-400 uppercase">Stream Metrics</span><div class="relative flex-grow mt-2"><canvas id="renderingStreamNode"></canvas></div></div>
+                        <div class="bg-white glass-card p-5 h-56 flex flex-col shadow-lg"><span class="text-xs font-bold text-gray-400 uppercase">Batch Matrix</span><div class="relative flex-grow mt-2"><canvas id="renderingBatchNode"></canvas></div></div>
+                        <div class="bg-white glass-card p-5 h-56 flex flex-col shadow-lg"><span class="text-xs font-bold text-gray-400 uppercase">Gender Spread</span><div class="relative flex-grow mt-2"><canvas id="renderingGenderNode"></canvas></div></div>
                     </div>
-
-                    <div class="bg-white glass-card shadow-xl overflow-hidden border border-gray-100">
-                        <div class="px-6 py-4 bg-gray-50/50 border-b border-gray-100 flex justify-between items-center">
-                            <span class="text-sm font-bold text-gray-800">State Allocation Ledger</span>
-                            <span id="state-count-badge" class="bg-blue-600 text-white text-xs font-mono px-3 py-1 rounded-full font-bold">Records: 0</span>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs border-collapse">
-                                <thead class="bg-gray-100 text-gray-500 font-bold uppercase tracking-wider">
-                                    <tr>
-                                        <th class="px-6 py-3">Full Name</th>
-                                        <th class="px-6 py-3">NIC / Contacts</th>
-                                        <th class="px-6 py-3">Academics</th>
-                                        <th class="px-6 py-3">Institution</th>
-                                        <th class="px-6 py-3">Sex</th>
-                                        <th class="px-6 py-3">Verification</th>
-                                        <th class="px-6 py-3 text-right">State Options</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="dynamicStateTableBody" class="divide-y divide-gray-100 text-gray-700">
-                                    </tbody>
-                            </table>
-                        </div>
+                    <div class="bg-white glass-card shadow-xl overflow-hidden border">
+                        <div class="px-6 py-4 bg-gray-50/50 border-b flex justify-between items-center"><span class="text-sm font-bold text-blue-950">Registration Ledger</span><span id="state-count-badge" class="bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-bold">Records: 0</span></div>
+                        <div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="bg-gray-100 text-gray-500 font-bold uppercase"><tr><th class="px-6 py-3">Full Name</th><th class="px-6 py-3">NIC / Contact</th><th class="px-6 py-3">Academics</th><th class="px-6 py-3">Institution</th><th class="px-6 py-3">Gender</th><th class="px-6 py-3">Status</th></tr></thead><tbody id="dynamicStateTableBody" class="divide-y divide-gray-100 bg-white"></tbody></table></div>
                     </div>
-
                 </div>
             </section>
-
         </main>
-
-        <footer class="bg-blue-950 text-blue-300/60 py-6 text-center text-xs mt-auto border-t border-blue-900/40">
-            <p>&copy; 2026 KMBUSA Core System Platform. Formulated for High Performance Educational Analytics.</p>
+        <footer class="bg-blue-950 text-blue-300/60 py-6 text-center text-xs mt-auto border-t">
+            <p>&copy; 2026 KMBUSA Platform - Kilinochchi</p>
         </footer>
     </div>
 
     <script>
         const MASTER_ACCESS_PASS = "admin123";
-        // OFFICIAL WEB APP URL FROM USER
-        const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzY4FqWMfzjLG1cHNWiqAZtlN4iT_C5etczzXJfEifv9l_eoU2nspPyOocZPKXtgtGW/exec";
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzn0D_iZd9eU8K2DLuI3g-vu7M9p8H9VHmIH49T9bKbLZ94SCim5lABTw_bO1vBgkAJ/exec';
+        // Your specific Google Sheet CSV URL
+        const csvURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRRderYTSrqwf1nfLMPCVkX8Wpc3xGQqyAXTWIdztYsuiSUxRM_fQam48ZuXhI07o2Fie0sLD6ehpzX/pub?gid=0&single=true&output=csv';
 
-        let liveStreamChart = null;
-        let liveBatchChart = null;
-        let liveGenderChart = null;
-
-        // Seeding initial local data
-        if (!localStorage.getItem('kmbusa_state_cluster')) {
-            const initialSeededRecords = [
-                { id: 101, name: "Tharsan Yogaratnam", nic: "200418301931", stream: "Physical Science", batch: "2025", school: "Kilinochchi Central College", gender: "Male", contact: "+94773829102", status: "Approved" },
-                { id: 102, name: "Abirami Sivanathan", nic: "200559203912", stream: "Biological Science", batch: "2026", school: "Kilinochchi Hindu College", gender: "Female", contact: "+94762938102", status: "Pending" }
-            ];
-            localStorage.setItem('kmbusa_state_cluster', JSON.stringify(initialSeededRecords));
-        }
+        let liveStreamChart = null, liveBatchChart = null, liveGenderChart = null;
 
         function dismissIntro() {
-            const intro = document.getElementById('intro-screen');
-            const mainApp = document.getElementById('main-app');
-            
-            intro.classList.add('animate__animated', 'animate__fadeOutUp');
-            
+            document.getElementById('intro-screen').classList.add('animate__animated', 'animate__fadeOutUp');
             setTimeout(() => {
-                intro.remove();
-                mainApp.classList.remove('hidden');
-                setTimeout(() => {
-                    mainApp.classList.remove('opacity-0');
-                    mainApp.classList.add('opacity-100');
-                    trackFormState();
-                }, 50);
+                document.getElementById('intro-screen').remove();
+                document.getElementById('main-app').classList.remove('hidden');
+                setTimeout(() => { document.getElementById('main-app').classList.replace('opacity-0', 'opacity-100'); trackFormState(); }, 50);
             }, 600);
         }
 
-        function navigateSPA(targetPageId) {
-            document.querySelectorAll('.spa-page').forEach(page => {
-                page.classList.remove('active-page');
-            });
-            
-            document.querySelectorAll('nav button').forEach(btn => {
-                btn.className = "px-5 py-2 rounded-full text-sm font-semibold transition duration-300 hover:bg-white/10 text-white";
-            });
-
-            const activeTargetNode = document.getElementById(`page-${targetPageId}`);
-            if(activeTargetNode) {
-                activeTargetNode.classList.add('active-page');
-            }
-            
-            const activeNavButtonNode = document.getElementById(`nav-${targetPageId}`);
-            if(activeNavButtonNode) {
-                activeNavButtonNode.className = "px-5 py-2 rounded-full text-sm font-semibold transition duration-300 bg-white text-blue-700 shadow-sm";
-            }
-
-            if (targetPageId === 'admin-dashboard') {
-                compileAndRunDashboardState();
-            }
+        function navigateSPA(id) {
+            document.querySelectorAll('.spa-page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(`page-${id}`).classList.add('active-page');
+            document.querySelectorAll('nav button').forEach(btn => btn.className = "px-5 py-2 rounded-full text-sm font-semibold transition duration-300 hover:bg-white/10 text-white");
+            document.getElementById(`nav-${id}`).className = "px-5 py-2 rounded-full text-sm font-semibold transition duration-300 bg-white text-blue-700 shadow-sm";
+            if (id === 'admin-dashboard') compileAndRunDashboardState();
         }
 
         function trackFormState() {
-            const targetFields = ['fullName', 'nicNumber', 'stream', 'batch', 'schoolName'];
-            let filledCount = 0;
-            
-            targetFields.forEach(fId => {
-                const node = document.getElementById(fId);
-                if(node && node.value.trim() !== "") filledCount++;
-            });
-
-            const radioNodeCheck = document.querySelector('input[name="gender"]:checked');
-            if(radioNodeCheck) filledCount++;
-            
-            const contactNode = document.getElementById('contactNumber');
-            if(contactNode && contactNode.value.trim() !== "") filledCount++;
-
-            const calculatedPercentage = Math.round((filledCount / 7) * 100);
-            document.getElementById('form-progress').style.width = `${calculatedPercentage}%`;
+            const fields = ['fullName', 'nicNumber', 'stream', 'batch', 'schoolName', 'contactNumber'];
+            let filled = fields.filter(f => document.getElementById(f).value.trim() !== "").length;
+            if(document.querySelector('input[name="gender"]:checked')) filled++;
+            document.getElementById('form-progress').style.width = `${Math.round((filled / 7) * 100)}%`;
         }
 
-        // Form submission function - UPDATED WITH FETCH
-        function executeRegistration(e) {
+        async function executeRegistration(e) {
             e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-circle-notch animate-spin"></i> <span>Processing...</span>';
 
             const record = {
-                id: Date.now(),
-                name: document.getElementById('fullName').value.trim(),
-                nic: document.getElementById('nicNumber').value.trim(),
+                name: document.getElementById('fullName').value,
+                nic: document.getElementById('nicNumber').value,
                 stream: document.getElementById('stream').value,
                 batch: document.getElementById('batch').value,
-                school: document.getElementById('schoolName').value.trim(),
+                school: document.getElementById('schoolName').value,
                 gender: document.querySelector('input[name="gender"]:checked').value,
-                contact: document.getElementById('contactNumber').value.trim(),
-                status: 'Pending'
+                contact: document.getElementById('contactNumber').value
             };
 
-            // 1. Local state management storage backup
-            const dataPool = JSON.parse(localStorage.getItem('kmbusa_state_cluster')) || [];
-            dataPool.push(record);
-            localStorage.setItem('kmbusa_state_cluster', JSON.stringify(dataPool));
-
-            // 2. DISPATCH TO GOOGLE SHEETS WEB APP API
-            fetch(GOOGLE_WEB_APP_URL, {
-                method: 'POST',
-                mode: 'no-cors', // Prevents CORS blocks
-                body: new URLSearchParams(new FormData(document.getElementById('registrationForm')))
-            })
-            .then(res => console.log("Cloud Backup Sync Successful"))
-            .catch(err => console.error("Cloud Backup Sync Failed", err));
-
-            // 3. UI Updates
-            document.getElementById('registrationForm').reset();
-            trackFormState();
-
-            const alertNode = document.getElementById('success-alert');
-            alertNode.classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            setTimeout(() => {
-                alertNode.classList.add('hidden');
-            }, 7000);
+            try {
+                await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(record) });
+                document.getElementById('registrationForm').reset();
+                trackFormState();
+                document.getElementById('success-alert').classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => document.getElementById('success-alert').classList.add('hidden'), 5000);
+            } catch (err) { alert("Error connecting to database. Please check your internet connection."); }
+            finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>Submit Registration</span>'; }
         }
 
-        function verifyPasscodeGate(e) {
-            e.preventDefault();
-            const inputtedCode = document.getElementById('gatePasscode').value;
-            const errorText = document.getElementById('gate-error-message');
-
-            if(inputtedCode === MASTER_ACCESS_PASS) {
-                errorText.classList.add('hidden');
-                document.getElementById('gatePasscode').value = '';
-                navigateSPA('admin-dashboard');
-            } else {
-                errorText.classList.remove('hidden');
-            }
-        }
-
-        function terminateAdminSession() {
-            navigateSPA('admin-login');
-        }
-
-        function alterVerificationStatus(recordId, adjustment) {
-            let internalPool = JSON.parse(localStorage.getItem('kmbusa_state_cluster')) || [];
-            internalPool = internalPool.map(item => item.id === recordId ? { ...item, status: adjustment } : item);
-            localStorage.setItem('kmbusa_state_cluster', JSON.stringify(internalPool));
-            compileAndRunDashboardState();
-        }
-
-        function eraseRegistrationRecord(recordId) {
-            if(confirm("Purge student registration payload record entirely from internal state arrays?")) {
-                let internalPool = JSON.parse(localStorage.getItem('kmbusa_state_cluster')) || [];
-                internalPool = internalPool.filter(item => item.id !== recordId);
-                localStorage.setItem('kmbusa_state_cluster', JSON.stringify(internalPool));
-                compileAndRunDashboardState();
-            }
-        }
-
-        function compileAndRunDashboardState() {
-            const dataPool = JSON.parse(localStorage.getItem('kmbusa_state_cluster')) || [];
-            document.getElementById('state-count-badge').innerText = `Records: ${dataPool.length}`;
+        async function compileAndRunDashboardState() {
+            const tbody = document.getElementById('dynamicStateTableBody');
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-400"><i class="fa-solid fa-spinner animate-spin mr-2"></i>Loading live data...</td></tr>';
             
-            const targetTbody = document.getElementById('dynamicStateTableBody');
-            targetTbody.innerHTML = '';
+            try {
+                const res = await fetch(csvURL);
+                const text = await res.text();
+                const rows = text.split('\n').slice(1);
+                const stats = { bio: 0, math: 0, b26: 0, b25: 0, b24: 0, oth: 0, male: 0, female: 0 };
+                tbody.innerHTML = '';
 
-            if(dataPool.length === 0) {
-                targetTbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-gray-400">Zero active data payloads found in local system storage.</td></tr>`;
-            }
+                rows.forEach(r => {
+                    const c = r.split(','); if(c.length < 5) return;
+                    if (c[3].includes('Bio')) stats.bio++; else stats.math++;
+                    if (c[4] === '2026') stats.b26++; else if (c[4] === '2025') stats.b25++; else if (c[4] === '2024') stats.b24++; else stats.oth++;
+                    if (c[6] === 'Male') stats.male++; else stats.female++;
 
-            const computations = {
-                bioCount: 0, mathCount: 0,
-                b26: 0, b25: 0, b24: 0, bOth: 0,
-                maleCount: 0, femaleCount: 0
-            };
-
-            dataPool.forEach(student => {
-                if (student.stream === 'Biological Science') computations.bioCount++; else computations.mathCount++;
-                if (student.batch === '2026') computations.b26++;
-                else if (student.batch === '2025') computations.b25++;
-                else if (student.batch === '2024') computations.b24++;
-                else computations.bOth++;
-                if (student.gender === 'Male') computations.maleCount++; else computations.femaleCount++;
-
-                let statusBadge = `<span class="px-2 py-0.5 rounded-full font-bold bg-amber-50 text-amber-700 border border-amber-200">Pending</span>`;
-                if(student.status === 'Approved') {
-                    statusBadge = `<span class="px-2 py-0.5 rounded-full font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Approved</span>`;
-                }
-
-                const row = document.createElement('tr');
-                row.className = "hover:bg-gray-50/60 transition duration-150 animate__animated animate__fadeIn";
-                row.innerHTML = `
-                    <td class="px-6 py-4 font-bold text-gray-900">${student.name}</td>
-                    <td class="px-6 py-4">
-                        <div class="font-mono text-gray-400 select-all">${student.nic}</div>
-                        <div class="font-semibold text-gray-600">${student.contact}</div>
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="font-bold text-gray-800">${student.stream}</div>
-                        <div class="text-blue-600 font-black text-[10px] uppercase">Batch ${student.batch}</div>
-                    </td>
-                    <td class="px-6 py-4 text-gray-600">${student.school}</td>
-                    <td class="px-6 py-4 font-semibold text-gray-400">${student.gender}</td>
-                    <td class="px-6 py-4">${statusBadge}</td>
-                    <td class="px-6 py-4 text-right space-x-1 whitespace-nowrap">
-                        ${student.status === 'Pending' ? 
-                          `<button onclick="alterVerificationStatus(${student.id}, 'Approved')" class="bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white p-2 rounded-lg transition" title="Approve Student"><i class="fa-solid fa-check-double"></i></button>` : 
-                          `<button onclick="alterVerificationStatus(${student.id}, 'Pending')" class="bg-amber-50 text-amber-600 hover:bg-amber-500 hover:text-white p-2 rounded-lg transition" title="Revert to Pending"><i class="fa-solid fa-user-clock"></i></button>`
-                        }
-                        <button onclick="eraseRegistrationRecord(${student.id})" class="bg-red-50 text-red-600 hover:bg-red-500 hover:text-white p-2 rounded-lg transition" title="Purge Record"><i class="fa-solid fa-user-minus"></i></button>
-                    </td>
-                `;
-                targetTbody.appendChild(row);
-            });
-
-            executeGraphicNodesDrawing(computations);
+                    tbody.innerHTML += `<tr><td class="px-6 py-4 font-bold text-gray-900">${c[1]}</td><td class="px-6 py-4">${c[2]}<br><span class="text-blue-600 font-medium">${c[7]}</span></td><td class="px-6 py-4">${c[3]} (Batch ${c[4]})</td><td class="px-6 py-4">${c[5]}</td><td class="px-6 py-4 font-medium">${c[6]}</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-[10px] font-bold">Verified</span></td></tr>`;
+                });
+                document.getElementById('state-count-badge').innerText = `Records: ${rows.length}`;
+                drawCharts(stats);
+            } catch (e) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-red-400">Unable to load dashboard data.</td></tr>'; }
         }
 
-        function executeGraphicNodesDrawing(metrics) {
-            const chartOptionsObj = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } } };
-            
+        function drawCharts(s) {
+            const opt = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } } };
             if (liveStreamChart) liveStreamChart.destroy();
             if (liveBatchChart) liveBatchChart.destroy();
             if (liveGenderChart) liveGenderChart.destroy();
 
-            liveStreamChart = new Chart(document.getElementById('renderingStreamNode').getContext('2d'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Bio Science', 'Physical Science'],
-                    datasets: [{ data: [metrics.bioCount, metrics.mathCount], backgroundColor: ['#2563eb', '#1e3a8a'], borderWidth: 1 }]
-                },
-                options: chartOptionsObj
-            });
-
-            liveBatchChart = new Chart(document.getElementById('renderingBatchNode').getContext('2d'), {
-                type: 'bar',
-                data: {
-                    labels: ['2024', '2025', '2026', 'Others'],
-                    datasets: [{ label: 'Students Registered', data: [metrics.b24, metrics.b25, metrics.b26, metrics.bOth], backgroundColor: '#4f46e5', borderRadius: 4 }]
-                },
-                options: { ...chartOptionsObj, plugins: { legend: { display: false } } }
-            });
-
-            liveGenderChart = new Chart(document.getElementById('renderingGenderNode').getContext('2d'), {
-                type: 'pie',
-                data: {
-                    labels: ['Male', 'Female'],
-                    datasets: [{ data: [metrics.maleCount, metrics.femaleCount], backgroundColor: ['#3b82f6', '#93c5fd'], borderWidth: 1 }]
-                },
-                options: chartOptionsObj
-            });
+            liveStreamChart = new Chart(document.getElementById('renderingStreamNode'), { type: 'doughnut', data: { labels: ['Bio', 'Math'], datasets: [{ data: [s.bio, s.math], backgroundColor: ['#2563eb', '#1e3a8a'] }] }, options: opt });
+            liveBatchChart = new Chart(document.getElementById('renderingBatchNode'), { type: 'bar', data: { labels: ['2024', '2025', '2026', 'Other'], datasets: [{ label: 'Students', data: [s.b24, s.b25, s.b26, s.oth], backgroundColor: '#4f46e5' }] }, options: { ...opt, plugins: { legend: { display: false } } } });
+            liveGenderChart = new Chart(document.getElementById('renderingGenderNode'), { type: 'pie', data: { labels: ['Male', 'Female'], datasets: [{ data: [s.male, s.female], backgroundColor: ['#3b82f6', '#93c5fd'] }] }, options: opt });
         }
+
+        function verifyPasscodeGate(e) { e.preventDefault(); if(document.getElementById('gatePasscode').value === MASTER_ACCESS_PASS) navigateSPA('admin-dashboard'); else document.getElementById('gate-error-message').classList.remove('hidden'); }
+        function terminateAdminSession() { navigateSPA('admin-login'); }
     </script>
 </body>
 </html>
