@@ -121,16 +121,40 @@
             <section id="page-admin-dashboard" class="spa-page animate__animated animate__fadeIn">
                 <div class="space-y-6">
                     <div class="bg-white glass-card p-5 flex justify-between items-center">
-                        <h3 class="text-xl font-bold">System Matrix Dashboard</h3>
-                        <button onclick="terminateAdminSession()" class="px-4 py-2 bg-red-50 text-red-600 rounded-xl text-xs font-bold">Logout</button>
+                        <h3 class="text-xl font-bold">Live System Analytics</h3>
+                        <div class="flex space-x-2">
+                            <button onclick="fetchSheetData()" class="px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-xs font-bold"><i class="fa-solid fa-sync mr-1"></i> Refresh Data</button>
+                            <button onclick="terminateAdminSession()" class="px-4 py-2 bg-red-50 text-red-600 rounded-xl text-xs font-bold">Logout</button>
+                        </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="bg-white glass-card p-5 h-64"><canvas id="renderingStreamNode"></canvas></div>
                         <div class="bg-white glass-card p-5 h-64"><canvas id="renderingGenderNode"></canvas></div>
+                        <div class="bg-white glass-card p-5 h-64"><canvas id="renderingBatchNode"></canvas></div>
                     </div>
-                    <div class="bg-white glass-card shadow-xl overflow-hidden text-center p-10">
-                        <i class="fa-solid fa-table-list text-4xl text-blue-100 mb-4"></i>
-                        <p class="text-gray-500">Live data is now stored in Google Sheets. <br> Please check your spreadsheet for the full student ledger.</p>
+
+                    <div class="bg-white glass-card shadow-xl overflow-hidden">
+                        <div class="px-6 py-4 bg-gray-50 border-b flex justify-between items-center">
+                            <span class="font-bold">Student Ledger (Live from Sheets)</span>
+                            <span id="state-count-badge" class="bg-blue-600 text-white text-xs px-3 py-1 rounded-full">Records: 0</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead class="bg-gray-100 text-gray-500 font-bold uppercase">
+                                    <tr>
+                                        <th class="px-6 py-3">Name</th>
+                                        <th class="px-6 py-3">NIC/Contact</th>
+                                        <th class="px-6 py-3">Academics</th>
+                                        <th class="px-6 py-3">School</th>
+                                        <th class="px-6 py-3">Gender</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dynamicStateTableBody" class="divide-y divide-gray-100">
+                                    <tr><td colspan="5" class="py-10 text-center text-blue-500">Click refresh or login to load data.</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -158,7 +182,10 @@
             document.getElementById(`page-${pageId}`).classList.add('active-page');
             document.querySelectorAll('nav button').forEach(b => b.className = "px-5 py-2 rounded-full text-sm font-semibold transition text-white hover:bg-white/10");
             document.getElementById(`nav-${pageId}`).className = "px-5 py-2 rounded-full text-sm font-semibold transition bg-white text-blue-700 shadow-sm";
-            if (pageId === 'admin-dashboard') compileChartsFromLocal();
+            
+            if (pageId === 'admin-dashboard') {
+                fetchSheetData();
+            }
         }
 
         // FORM LOGIC
@@ -174,7 +201,6 @@
             const btn = document.getElementById('submitBtn');
             const spinner = document.getElementById('loading-spinner');
             
-            // UI State: Loading
             btn.disabled = true;
             btn.classList.add('opacity-50');
             spinner.classList.remove('hidden');
@@ -190,19 +216,12 @@
             };
 
             try {
-                // SEND DATA TO GOOGLE SHEETS
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     body: JSON.stringify(formData)
                 });
 
-                // ALSO SAVE LOCALLY (Optional: for the dashboard charts)
-                const localData = JSON.parse(localStorage.getItem('kmbusa_state_cluster')) || [];
-                localData.push(formData);
-                localStorage.setItem('kmbusa_state_cluster', JSON.stringify(localData));
-
-                // SUCCESS UI
                 e.target.reset();
                 trackFormState();
                 document.getElementById('success-alert').classList.remove('hidden');
@@ -218,7 +237,66 @@
             }
         }
 
-        // ADMIN LOGIC
+        // ADMIN FETCH & ANALYTICS
+        async function fetchSheetData() {
+            const tableBody = document.getElementById('dynamicStateTableBody');
+            tableBody.innerHTML = `<tr><td colspan="5" class="py-10 text-center text-blue-500"><i class="fa-solid fa-spinner fa-spin mr-2"></i>Loading live data...</td></tr>`;
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL);
+                const data = await response.json();
+                
+                document.getElementById('state-count-badge').innerText = `Records: ${data.length}`;
+
+                tableBody.innerHTML = data.map(r => `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 font-bold text-blue-900">${r.name}</td>
+                        <td class="px-6 py-4">${r.nic}<br><span class="text-blue-500">${r.contact}</span></td>
+                        <td class="px-6 py-4"><span class="font-semibold">${r.stream}</span><br>Batch: ${r.batch}</td>
+                        <td class="px-6 py-4">${r.school}</td>
+                        <td class="px-6 py-4">${r.gender}</td>
+                    </tr>
+                `).reverse().join('');
+
+                runLiveAnalytics(data);
+            } catch (error) {
+                tableBody.innerHTML = `<tr><td colspan="5" class="py-10 text-center text-red-500">Failed to load data. Ensure your Apps Script doGet() is deployed as 'Anyone'.</td></tr>`;
+            }
+        }
+
+        function runLiveAnalytics(data) {
+            const streams = { "Biological Science": 0, "Physical Science": 0 };
+            const genders = { "Male": 0, "Female": 0 };
+            const batches = {};
+
+            data.forEach(r => {
+                if(streams[r.stream] !== undefined) streams[r.stream]++;
+                if(genders[r.gender] !== undefined) genders[r.gender]++;
+                batches[r.batch] = (batches[r.batch] || 0) + 1;
+            });
+
+            if (charts.stream) charts.stream.destroy();
+            charts.stream = new Chart(document.getElementById('renderingStreamNode'), {
+                type: 'doughnut',
+                data: { labels: Object.keys(streams), datasets: [{ data: Object.values(streams), backgroundColor: ['#3b82f6', '#1e3a8a'] }] },
+                options: { maintainAspectRatio: false, plugins: { title: { display: true, text: 'Streamwise' } } }
+            });
+
+            if (charts.gender) charts.gender.destroy();
+            charts.gender = new Chart(document.getElementById('renderingGenderNode'), {
+                type: 'pie',
+                data: { labels: Object.keys(genders), datasets: [{ data: Object.values(genders), backgroundColor: ['#60a5fa', '#f472b6'] }] },
+                options: { maintainAspectRatio: false, plugins: { title: { display: true, text: 'Genderwise' } } }
+            });
+
+            if (charts.batch) charts.batch.destroy();
+            charts.batch = new Chart(document.getElementById('renderingBatchNode'), {
+                type: 'bar',
+                data: { labels: Object.keys(batches), datasets: [{ label: 'Students', data: Object.values(batches), backgroundColor: '#4f46e5' }] },
+                options: { maintainAspectRatio: false, plugins: { title: { display: true, text: 'Batchwise' } } }
+            });
+        }
+
         function verifyPasscodeGate(e) {
             e.preventDefault();
             if (document.getElementById('gatePasscode').value === MASTER_ACCESS_PASS) {
@@ -231,32 +309,6 @@
         function terminateAdminSession() {
             document.getElementById('gatePasscode').value = "";
             navigateSPA('admin-login');
-        }
-
-        function compileChartsFromLocal() {
-            const data = JSON.parse(localStorage.getItem('kmbusa_state_cluster')) || [];
-            if (data.length === 0) return;
-
-            const streams = { "Biological Science": 0, "Physical Science": 0 };
-            const genders = { "Male": 0, "Female": 0 };
-            data.forEach(r => { 
-                if(streams[r.stream] !== undefined) streams[r.stream]++; 
-                if(genders[r.gender] !== undefined) genders[r.gender]++; 
-            });
-
-            if (charts.stream) charts.stream.destroy();
-            charts.stream = new Chart(document.getElementById('renderingStreamNode'), {
-                type: 'doughnut',
-                data: { labels: Object.keys(streams), datasets: [{ data: Object.values(streams), backgroundColor: ['#3b82f6', '#1e3a8a'] }] },
-                options: { maintainAspectRatio: false, plugins: { title: { display: true, text: 'Local Stream Analytics' } } }
-            });
-
-            if (charts.gender) charts.gender.destroy();
-            charts.gender = new Chart(document.getElementById('renderingGenderNode'), {
-                type: 'pie',
-                data: { labels: Object.keys(genders), datasets: [{ data: Object.values(genders), backgroundColor: ['#60a5fa', '#f472b6'] }] },
-                options: { maintainAspectRatio: false, plugins: { title: { display: true, text: 'Local Gender Spread' } } }
-            });
         }
     </script>
 </body>
