@@ -14,163 +14,138 @@
         body { font-family: 'Poppins', sans-serif; background-color: #f0f4f8; overflow-x: hidden; }
         .wave-bg { position: relative; background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%); border-radius: 0 0 60px 60px; overflow: hidden; }
         .animated-blob { position: absolute; background: rgba(255, 255, 255, 0.05); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; animation: morphBlob 12s infinite linear; z-index: 0; }
-        @keyframes morphBlob { 0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(0deg); } 50% { border-radius: 70% 30% 52% 48% / 60% 40% 70% 30%; transform: rotate(180deg); } 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(360deg); } }
+        @keyframes morphBlob {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(0deg); }
+            50% { border-radius: 70% 30% 52% 48% / 60% 40% 70% 30%; transform: rotate(180deg); }
+            100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(360deg); }
+        }
         .spa-page { display: none; }
         .spa-page.active-page { display: block; }
-        .progress-bar-fill { transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 30px; }
     </style>
 </head>
 <body class="text-gray-800 min-h-screen flex flex-col">
 
     <div id="intro-screen" class="fixed inset-0 bg-blue-900 z-50 flex flex-col items-center justify-center text-white px-4">
-        <div class="absolute inset-0 overflow-hidden">
-            <div class="animated-blob w-96 h-96 -top-10 -left-10"></div>
-            <div class="animated-blob w-80 h-80 -bottom-10 -right-10" style="animation-duration: 8s;"></div>
-        </div>
-        <div class="text-center z-10 space-y-6 max-w-xl animate__animated animate__fadeIn">
-            <div class="relative inline-block">
-                <div class="absolute inset-0 bg-blue-400 rounded-full blur-xl opacity-40 animate-pulse"></div>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYHbrqEegUN2m6QuS_MP80cGuqtEgD3qqngA&s" alt="Logo" class="w-32 h-32 rounded-full mx-auto border-4 border-white shadow-2xl transform hover:scale-110 transition duration-500 animate__animated animate__zoomIn">
-            </div>
-            <div class="space-y-2">
-                <h1 class="text-5xl font-black tracking-wider animate__animated animate__backInDown">KMBUSA</h1>
-                <p class="text-blue-200 text-sm font-medium tracking-wide uppercase px-4 text-center">Kilinochchi Mathematics & Biology University Students' Association</p>
-            </div>
-            <div class="pt-8">
-                <button onclick="dismissIntro()" class="bg-white text-blue-900 font-bold px-8 py-3.5 rounded-full shadow-lg hover:bg-blue-50 transition transform hover:-translate-y-1 duration-200 animate__animated animate__pulse animate__infinite">Enter Official Portal <i class="fa-solid fa-arrow-right ml-2"></i></button>
-            </div>
+        <div class="text-center z-10 space-y-6 animate__animated animate__fadeIn">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYHbrqEegUN2m6QuS_MP80cGuqtEgD3qqngA&s" alt="Logo" class="w-32 h-32 rounded-full mx-auto border-4 border-white shadow-2xl">
+            <h1 class="text-5xl font-black">KMBUSA</h1>
+            <p class="text-blue-200 uppercase tracking-widest text-sm">Official Digital Portal</p>
+            <button onclick="dismissIntro()" class="bg-white text-blue-900 font-bold px-8 py-3 rounded-full shadow-lg hover:scale-105 transition">Enter Portal</button>
         </div>
     </div>
 
-    <div id="main-app" class="opacity-0 transition-opacity duration-1000 hidden flex-col min-h-screen">
-        <header class="wave-bg text-white pb-24 pt-8 px-4 text-center shadow-xl relative">
-            <div class="max-w-4xl mx-auto flex flex-col items-center relative z-10">
-                <div class="flex items-center space-x-4 mb-4 transform hover:scale-105 transition duration-300">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYHbrqEegUN2m6QuS_MP80cGuqtEgD3qqngA&s" alt="Logo" class="w-14 h-14 rounded-full border-2 border-white">
-                    <div class="text-left">
-                        <h2 class="text-2xl font-black tracking-wide">KMBUSA</h2>
-                        <p class="text-xs text-blue-100 font-light uppercase">Kilinochchi District</p>
-                    </div>
-                </div>
-                <nav class="flex justify-center space-x-1 mt-6 bg-white/10 p-1.5 rounded-full backdrop-blur-md border border-white/10">
-                    <button onclick="navigateSPA('register')" id="nav-register" class="px-5 py-2 rounded-full text-sm font-semibold transition duration-300 bg-white text-blue-700 shadow-sm"><i class="fa-solid fa-user-plus mr-1.5"></i>Registration</button>
-                    <button onclick="navigateSPA('about')" id="nav-about" class="px-5 py-2 rounded-full text-sm font-semibold transition duration-300 hover:bg-white/10 text-white"><i class="fa-solid fa-circle-info mr-1.5"></i>About Us</button>
-                    <button onclick="navigateSPA('admin-login')" id="nav-admin-login" class="px-5 py-2 rounded-full text-sm font-semibold transition duration-300 hover:bg-white/10 text-white"><i class="fa-solid fa-lock-open mr-1.5"></i>Admin Area</button>
-                </nav>
-            </div>
+    <div id="main-app" class="hidden flex-col min-h-screen opacity-0 transition-opacity duration-1000">
+        <header class="wave-bg text-white pb-24 pt-8 px-4 text-center shadow-xl">
+            <nav class="flex justify-center space-x-2 bg-white/10 p-1.5 rounded-full backdrop-blur-md max-w-fit mx-auto">
+                <button onclick="navigateSPA('register')" id="nav-register" class="px-5 py-2 rounded-full text-sm font-semibold bg-white text-blue-700">Registration</button>
+                <button onclick="navigateSPA('about')" id="nav-about" class="px-5 py-2 rounded-full text-sm font-semibold text-white">About Us</button>
+                <button onclick="navigateSPA('admin-login')" id="nav-admin-login" class="px-5 py-2 rounded-full text-sm font-semibold text-white">Admin Access</button>
+            </nav>
         </header>
 
-        <main class="flex-grow max-w-5xl w-full mx-auto px-4 -mt-14 z-10 mb-16">
+        <main class="flex-grow max-w-6xl w-full mx-auto px-4 -mt-14 z-10 mb-16">
             <section id="page-register" class="spa-page active-page animate__animated animate__fadeInUp">
-                <div class="bg-white glass-card p-6 md:p-10 shadow-2xl">
-                    <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold text-blue-950">Student Admission Portal</h3>
-                        <div class="w-full bg-gray-100 h-2 mt-5 rounded-full overflow-hidden border border-gray-200">
-                            <div id="form-progress" class="progress-bar-fill bg-gradient-to-r from-blue-500 to-indigo-600 h-full w-0"></div>
+                <div class="bg-white glass-card p-8 shadow-2xl">
+                    <h3 class="text-2xl font-bold text-center text-blue-950 mb-8">Student Registration</h3>
+                    <form onsubmit="executeRegistration(event)" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="text" id="fullName" placeholder="Full Name" required class="px-4 py-3 bg-gray-50 border rounded-xl w-full">
+                        <input type="text" id="nicNumber" placeholder="NIC Number" required class="px-4 py-3 bg-gray-50 border rounded-xl w-full">
+                        <select id="stream" required class="px-4 py-3 bg-gray-50 border rounded-xl w-full">
+                            <option value="">Select Stream</option>
+                            <option>Biological Science</option>
+                            <option>Physical Science</option>
+                        </select>
+                        <select id="batch" required class="px-4 py-3 bg-gray-50 border rounded-xl w-full">
+                            <option value="">Select Batch</option>
+                            <option>2024</option><option>2025</option><option>2026</option>
+                        </select>
+                        <input type="text" id="schoolName" placeholder="School Name" required class="md:col-span-2 px-4 py-3 bg-gray-50 border rounded-xl">
+                        <div class="flex space-x-4">
+                            <label class="flex-1 text-center py-3 border rounded-xl cursor-pointer bg-gray-50"><input type="radio" name="gender" value="Male" required> Male</label>
+                            <label class="flex-1 text-center py-3 border rounded-xl cursor-pointer bg-gray-50"><input type="radio" name="gender" value="Female" required> Female</label>
                         </div>
-                    </div>
-                    <div id="success-alert" class="hidden mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-2xl flex items-center space-x-3 animate__animated animate__bounceIn">
-                        <div class="p-2 bg-emerald-500 text-white rounded-full"><i class="fa-solid fa-check text-lg"></i></div>
-                        <div><p class="font-bold text-sm">Registration Successful!</p><p class="text-xs text-emerald-700">Data has been saved to the secure database.</p></div>
-                    </div>
-                    <form id="registrationForm" onsubmit="executeRegistration(event)" class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">Full Name</label><input type="text" id="fullName" oninput="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"></div>
-                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">NIC Number</label><input type="text" id="nicNumber" oninput="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"></div>
-                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">Stream</label><select id="stream" onchange="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"><option value="" disabled selected>Choose stream</option><option value="Biological Science">Biological Science</option><option value="Physical Science">Physical Science</option></select></div>
-                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">Batch</label><select id="batch" onchange="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"><option value="" disabled selected>Select Year</option><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="Others">Others</option></select></div>
-                            <div class="md:col-span-2"><label class="block text-xs font-bold text-gray-700 uppercase mb-2">School Name</label><input type="text" id="schoolName" oninput="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"></div>
-                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">Gender</label><div class="flex space-x-4"><label class="flex items-center space-x-2 cursor-pointer bg-gray-50/50 px-4 py-2.5 rounded-xl border border-gray-200 flex-1 justify-center"><input type="radio" name="gender" value="Male" onchange="trackFormState()" required> <span>Male</span></label><label class="flex items-center space-x-2 cursor-pointer bg-gray-50/50 px-4 py-2.5 rounded-xl border border-gray-200 flex-1 justify-center"><input type="radio" name="gender" value="Female" onchange="trackFormState()" required> <span>Female</span></label></div></div>
-                            <div><label class="block text-xs font-bold text-gray-700 uppercase mb-2">Contact Number</label><input type="tel" id="contactNumber" oninput="trackFormState()" required class="w-full px-4 py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl outline-none text-sm focus:ring-2 focus:ring-blue-500 transition"></div>
-                        </div>
-                        <button type="submit" id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl shadow-lg transition flex items-center justify-center space-x-2"><i class="fa-solid fa-paper-plane"></i><span>Submit Registration</span></button>
-                    </form>
-                </div>
-            </section>
-
-            <section id="page-about" class="spa-page animate__animated animate__fadeInUp">
-                <div class="bg-white glass-card p-6 md:p-10 shadow-2xl space-y-8">
-                    <div class="border-l-4 border-blue-600 pl-4 py-1"><p class="text-gray-700 leading-relaxed font-medium text-justify">கிளிநொச்சி மாவட்டத்தைச் சேர்ந்த கணித மற்றும் உயிரியல் பிரிவு பல்கலைக்கழக மாணவர்களால் உருவாக்கப்பட்ட அமைப்பே KMBUSA ஆகும்.</p></div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="bg-white border p-4 rounded-xl flex items-center space-x-4"><div><p class="text-xs font-semibold text-gray-400 uppercase">President</p><p class="font-bold text-sm">Iynkaran</p></div></div>
-                        <div class="bg-white border p-4 rounded-xl flex items-center space-x-4"><div><p class="text-xs font-semibold text-gray-400 uppercase">Secretary</p><p class="font-bold text-sm">Sarangan</p></div></div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="page-admin-login" class="spa-page animate__animated animate__fadeInUp">
-                <div class="max-w-md mx-auto bg-white glass-card p-8 shadow-2xl text-center">
-                    <h4 class="text-xl font-bold text-gray-900">Admin Login</h4>
-                    <form onsubmit="verifyPasscodeGate(event)" class="space-y-4 mt-6">
-                        <input type="password" id="gatePasscode" required class="w-full px-4 py-2.5 bg-gray-50 border rounded-xl text-center outline-none focus:ring-2 focus:ring-blue-500 transition" placeholder="Enter Passcode">
-                        <p id="gate-error-message" class="hidden text-xs text-red-500">Invalid Passcode. Access Denied.</p>
-                        <button type="submit" class="w-full bg-blue-950 text-white py-2.5 rounded-xl font-bold hover:bg-blue-900 transition">Access Dashboard</button>
+                        <input type="tel" id="contactNumber" placeholder="Contact Number" required class="px-4 py-3 bg-gray-50 border rounded-xl w-full">
+                        <button type="submit" id="submitBtn" class="md:col-span-2 bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700">Submit Application</button>
                     </form>
                 </div>
             </section>
 
             <section id="page-admin-dashboard" class="spa-page animate__animated animate__fadeIn">
                 <div class="space-y-6">
-                    <div class="bg-white glass-card p-5 shadow-xl flex justify-between items-center">
-                        <div><h3 class="text-xl font-bold text-blue-950">KMBUSA Admin Dashboard</h3></div>
-                        <button onclick="terminateAdminSession()" class="px-4 py-2 bg-red-50 text-red-600 rounded-xl text-xs font-bold hover:bg-red-100 transition">Logout</button>
+                    <div class="bg-white glass-card p-6 flex justify-between items-center shadow-lg">
+                        <h3 class="text-xl font-bold text-blue-900">Live Analytics Dashboard</h3>
+                        <button onclick="fetchSheetData()" class="bg-blue-600 text-white px-5 py-2 rounded-xl text-sm font-bold shadow-md">Refresh Cloud Data</button>
                     </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white glass-card p-5 h-56 flex flex-col shadow-lg"><span class="text-xs font-bold text-gray-400 uppercase">Stream Metrics</span><div class="relative flex-grow mt-2"><canvas id="renderingStreamNode"></canvas></div></div>
-                        <div class="bg-white glass-card p-5 h-56 flex flex-col shadow-lg"><span class="text-xs font-bold text-gray-400 uppercase">Batch Matrix</span><div class="relative flex-grow mt-2"><canvas id="renderingBatchNode"></canvas></div></div>
-                        <div class="bg-white glass-card p-5 h-56 flex flex-col shadow-lg"><span class="text-xs font-bold text-gray-400 uppercase">Gender Spread</span><div class="relative flex-grow mt-2"><canvas id="renderingGenderNode"></canvas></div></div>
+                        <div class="bg-white glass-card p-5 h-72 shadow-xl"><canvas id="chartStream"></canvas></div>
+                        <div class="bg-white glass-card p-5 h-72 shadow-xl"><canvas id="chartGender"></canvas></div>
+                        <div class="bg-white glass-card p-5 h-72 shadow-xl"><canvas id="chartBatch"></canvas></div>
                     </div>
-                    <div class="bg-white glass-card shadow-xl overflow-hidden border">
-                        <div class="px-6 py-4 bg-gray-50/50 border-b flex justify-between items-center"><span class="text-sm font-bold text-blue-950">Registration Ledger</span><span id="state-count-badge" class="bg-blue-600 text-white text-xs px-3 py-1 rounded-full font-bold">Records: 0</span></div>
-                        <div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="bg-gray-100 text-gray-500 font-bold uppercase"><tr><th class="px-6 py-3">Full Name</th><th class="px-6 py-3">NIC / Contact</th><th class="px-6 py-3">Academics</th><th class="px-6 py-3">Institution</th><th class="px-6 py-3">Gender</th><th class="px-6 py-3">Status</th></tr></thead><tbody id="dynamicStateTableBody" class="divide-y divide-gray-100 bg-white"></tbody></table></div>
+
+                    <div class="bg-white glass-card shadow-2xl overflow-hidden">
+                        <div class="px-6 py-4 bg-gray-50 border-b flex justify-between font-bold">
+                            <span>Registered Student Ledger</span>
+                            <span id="record-count" class="text-blue-600">Total: 0</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-blue-900 text-white">
+                                    <tr>
+                                        <th class="px-6 py-4">Name</th>
+                                        <th class="px-6 py-4">Stream (Batch)</th>
+                                        <th class="px-6 py-4">School</th>
+                                        <th class="px-6 py-4">Contact</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="studentTableBody" class="divide-y divide-gray-100">
+                                    <tr><td colspan="4" class="py-10 text-center text-blue-500 italic">Click Refresh to Load Data</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
+
+            <section id="page-admin-login" class="spa-page">
+                <div class="max-w-md mx-auto bg-white glass-card p-10 shadow-2xl text-center">
+                    <h4 class="text-xl font-bold mb-6">Security Check</h4>
+                    <input type="password" id="gatePass" class="w-full px-4 py-3 border rounded-xl mb-4 text-center" placeholder="Enter Admin Passcode">
+                    <button onclick="checkAdmin()" class="w-full bg-blue-900 text-white py-3 rounded-xl font-bold">Access Dashboard</button>
+                </div>
+            </section>
         </main>
-        <footer class="bg-blue-950 text-blue-300/60 py-6 text-center text-xs mt-auto border-t">
-            <p>&copy; 2026 KMBUSA Platform - Kilinochchi</p>
-        </footer>
     </div>
 
     <script>
-        const MASTER_ACCESS_PASS = "admin123";
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzn0D_iZd9eU8K2DLuI3g-vu7M9p8H9VHmIH49T9bKbLZ94SCim5lABTw_bO1vBgkAJ/exec';
-        // Your specific Google Sheet CSV URL
-        const csvURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRRderYTSrqwf1nfLMPCVkX8Wpc3xGQqyAXTWIdztYsuiSUxRM_fQam48ZuXhI07o2Fie0sLD6ehpzX/pub?gid=0&single=true&output=csv';
-
-        let liveStreamChart = null, liveBatchChart = null, liveGenderChart = null;
+        // UPDATED URL
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwsSe3s-ai1UrxWhX1Qxr8VnO5lf4c_hWFJQNOgabrIkmkO_2JDHFUIq4OecWesijh_/exec";
+        let charts = {};
 
         function dismissIntro() {
-            document.getElementById('intro-screen').classList.add('animate__animated', 'animate__fadeOutUp');
+            document.getElementById('intro-screen').classList.add('animate__fadeOutUp');
             setTimeout(() => {
                 document.getElementById('intro-screen').remove();
                 document.getElementById('main-app').classList.remove('hidden');
-                setTimeout(() => { document.getElementById('main-app').classList.replace('opacity-0', 'opacity-100'); trackFormState(); }, 50);
-            }, 600);
+                setTimeout(() => document.getElementById('main-app').classList.add('opacity-100'), 50);
+            }, 500);
         }
 
-        function navigateSPA(id) {
+        function navigateSPA(pageId) {
             document.querySelectorAll('.spa-page').forEach(p => p.classList.remove('active-page'));
-            document.getElementById(`page-${id}`).classList.add('active-page');
-            document.querySelectorAll('nav button').forEach(btn => btn.className = "px-5 py-2 rounded-full text-sm font-semibold transition duration-300 hover:bg-white/10 text-white");
-            document.getElementById(`nav-${id}`).className = "px-5 py-2 rounded-full text-sm font-semibold transition duration-300 bg-white text-blue-700 shadow-sm";
-            if (id === 'admin-dashboard') compileAndRunDashboardState();
-        }
-
-        function trackFormState() {
-            const fields = ['fullName', 'nicNumber', 'stream', 'batch', 'schoolName', 'contactNumber'];
-            let filled = fields.filter(f => document.getElementById(f).value.trim() !== "").length;
-            if(document.querySelector('input[name="gender"]:checked')) filled++;
-            document.getElementById('form-progress').style.width = `${Math.round((filled / 7) * 100)}%`;
+            document.getElementById(`page-${pageId}`).classList.add('active-page');
+            document.querySelectorAll('nav button').forEach(b => b.className = "px-5 py-2 rounded-full text-sm font-semibold text-white");
+            document.getElementById(`nav-${pageId}`).className = "px-5 py-2 rounded-full text-sm font-semibold bg-white text-blue-700 shadow-sm";
+            if(pageId === 'admin-dashboard') fetchSheetData();
         }
 
         async function executeRegistration(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-circle-notch animate-spin"></i> <span>Processing...</span>';
-
-            const record = {
+            btn.disabled = true; btn.innerText = "Saving to Cloud...";
+            
+            const data = {
                 name: document.getElementById('fullName').value,
                 nic: document.getElementById('nicNumber').value,
                 stream: document.getElementById('stream').value,
@@ -181,53 +156,60 @@
             };
 
             try {
-                await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(record) });
-                document.getElementById('registrationForm').reset();
-                trackFormState();
-                document.getElementById('success-alert').classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                setTimeout(() => document.getElementById('success-alert').classList.add('hidden'), 5000);
-            } catch (err) { alert("Error connecting to database. Please check your internet connection."); }
-            finally { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>Submit Registration</span>'; }
+                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+                alert("Registration Successful!");
+                e.target.reset();
+            } catch(err) { alert("Network Error"); }
+            btn.disabled = false; btn.innerText = "Submit Application";
         }
 
-        async function compileAndRunDashboardState() {
-            const tbody = document.getElementById('dynamicStateTableBody');
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-400"><i class="fa-solid fa-spinner animate-spin mr-2"></i>Loading live data...</td></tr>';
+        async function fetchSheetData() {
+            const table = document.getElementById('studentTableBody');
+            table.innerHTML = `<tr><td colspan="4" class="py-10 text-center"><i class="fa-solid fa-sync fa-spin"></i> Fetching from Google Sheets...</td></tr>`;
             
             try {
-                const res = await fetch(csvURL);
-                const text = await res.text();
-                const rows = text.split('\n').slice(1);
-                const stats = { bio: 0, math: 0, b26: 0, b25: 0, b24: 0, oth: 0, male: 0, female: 0 };
-                tbody.innerHTML = '';
+                const response = await fetch(SCRIPT_URL, { redirect: 'follow' });
+                const data = await response.json();
+                
+                document.getElementById('record-count').innerText = `Total: ${data.length}`;
+                table.innerHTML = data.map(r => `
+                    <tr class="hover:bg-blue-50 transition">
+                        <td class="px-6 py-4 font-bold text-blue-900">${r.name}</td>
+                        <td class="px-6 py-4">${r.stream} (${r.batch})</td>
+                        <td class="px-6 py-4 text-xs">${r.school}</td>
+                        <td class="px-6 py-4 font-mono font-bold">${r.contact}</td>
+                    </tr>
+                `).reverse().join('');
+                
+                updateAnalytics(data);
+            } catch(e) { table.innerHTML = `<tr><td colspan="4" class="py-10 text-center text-red-500">Failed to connect to script.</td></tr>`; }
+        }
 
-                rows.forEach(r => {
-                    const c = r.split(','); if(c.length < 5) return;
-                    if (c[3].includes('Bio')) stats.bio++; else stats.math++;
-                    if (c[4] === '2026') stats.b26++; else if (c[4] === '2025') stats.b25++; else if (c[4] === '2024') stats.b24++; else stats.oth++;
-                    if (c[6] === 'Male') stats.male++; else stats.female++;
+        function updateAnalytics(data) {
+            const counts = { streams: {}, genders: {}, batches: {} };
+            data.forEach(r => {
+                counts.streams[r.stream] = (counts.streams[r.stream] || 0) + 1;
+                counts.genders[r.gender] = (counts.genders[r.gender] || 0) + 1;
+                counts.batches[r.batch] = (counts.batches[r.batch] || 0) + 1;
+            });
 
-                    tbody.innerHTML += `<tr><td class="px-6 py-4 font-bold text-gray-900">${c[1]}</td><td class="px-6 py-4">${c[2]}<br><span class="text-blue-600 font-medium">${c[7]}</span></td><td class="px-6 py-4">${c[3]} (Batch ${c[4]})</td><td class="px-6 py-4">${c[5]}</td><td class="px-6 py-4 font-medium">${c[6]}</td><td class="px-6 py-4"><span class="bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full text-[10px] font-bold">Verified</span></td></tr>`;
+            const renderChart = (id, type, title, labelSet, colorSet) => {
+                if(charts[id]) charts[id].destroy();
+                charts[id] = new Chart(document.getElementById(id), {
+                    type, data: { labels: Object.keys(labelSet), datasets: [{ data: Object.values(labelSet), backgroundColor: colorSet }] },
+                    options: { maintainAspectRatio: false, plugins: { title: { display: true, text: title, font: {size: 14, weight: 'bold'} } } }
                 });
-                document.getElementById('state-count-badge').innerText = `Records: ${rows.length}`;
-                drawCharts(stats);
-            } catch (e) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-red-400">Unable to load dashboard data.</td></tr>'; }
+            };
+
+            renderChart('chartStream', 'doughnut', 'Student Streams', counts.streams, ['#1e3a8a', '#3b82f6']);
+            renderChart('chartGender', 'pie', 'Gender Ratio', counts.genders, ['#4f46e5', '#ec4899']);
+            renderChart('chartBatch', 'bar', 'Batch Enrollment', counts.batches, ['#10b981']);
         }
 
-        function drawCharts(s) {
-            const opt = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } } };
-            if (liveStreamChart) liveStreamChart.destroy();
-            if (liveBatchChart) liveBatchChart.destroy();
-            if (liveGenderChart) liveGenderChart.destroy();
-
-            liveStreamChart = new Chart(document.getElementById('renderingStreamNode'), { type: 'doughnut', data: { labels: ['Bio', 'Math'], datasets: [{ data: [s.bio, s.math], backgroundColor: ['#2563eb', '#1e3a8a'] }] }, options: opt });
-            liveBatchChart = new Chart(document.getElementById('renderingBatchNode'), { type: 'bar', data: { labels: ['2024', '2025', '2026', 'Other'], datasets: [{ label: 'Students', data: [s.b24, s.b25, s.b26, s.oth], backgroundColor: '#4f46e5' }] }, options: { ...opt, plugins: { legend: { display: false } } } });
-            liveGenderChart = new Chart(document.getElementById('renderingGenderNode'), { type: 'pie', data: { labels: ['Male', 'Female'], datasets: [{ data: [s.male, s.female], backgroundColor: ['#3b82f6', '#93c5fd'] }] }, options: opt });
+        function checkAdmin() {
+            if(document.getElementById('gatePass').value === "admin123") navigateSPA('admin-dashboard');
+            else alert("Incorrect Passcode");
         }
-
-        function verifyPasscodeGate(e) { e.preventDefault(); if(document.getElementById('gatePasscode').value === MASTER_ACCESS_PASS) navigateSPA('admin-dashboard'); else document.getElementById('gate-error-message').classList.remove('hidden'); }
-        function terminateAdminSession() { navigateSPA('admin-login'); }
     </script>
 </body>
 </html>
